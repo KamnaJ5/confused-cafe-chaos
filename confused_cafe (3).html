@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Confused Cafe - Stay Messy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,800;1,800&family=Be+Vietnam+Pro:wght@400;700&family=Spline+Sans:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "tertiary-fixed-dim": "#bec2ff",
+          "secondary-fixed-dim": "#2ae500",
+          "surface-container-high": "#5c0000",
+          "surface-container-lowest": "#270000",
+          "on-secondary-fixed-variant": "#095300",
+          "on-primary-fixed-variant": "#8c0058",
+          "error-container": "#93000a",
+          "inverse-primary": "#ac2471",
+          "on-primary-fixed": "#3d0024",
+          "secondary-container": "#095300",
+          "surface-dim": "#310000",
+          "on-surface": "#ffdad4",
+          "outline-variant": "#474747",
+          "on-error": "#690005",
+          "error": "#ffb4ab",
+          "on-tertiary-fixed-variant": "#0000ef",
+          "inverse-on-surface": "#690100",
+          "background": "#310000",
+          "surface-variant": "#710100",
+          "on-tertiary-fixed": "#00006e",
+          "secondary": "#2ae500",
+          "on-secondary": "#053900",
+          "primary-fixed-dim": "#ffb0d0",
+          "on-tertiary-container": "#e0e0ff",
+          "on-surface-variant": "#c6c6c6",
+          "surface-tint": "#ffb0d0",
+          "secondary-fixed": "#79ff5b",
+          "tertiary-fixed": "#e0e0ff",
+          "surface-container": "#490000",
+          "surface-container-low": "#410000",
+          "surface-container-highest": "#710100",
+          "outline": "#919191",
+          "on-error-container": "#ffdad6",
+          "on-primary-container": "#ffd8e6",
+          "tertiary-container": "#0000ef",
+          "on-tertiary": "#0001ac",
+          "on-background": "#ffdad4",
+          "primary-fixed": "#ffd8e6",
+          "inverse-surface": "#ffdad4",
+          "on-secondary-container": "#79ff5b",
+          "primary": "#ffb0d0",
+          "tertiary": "#bec2ff",
+          "primary-container": "#8c0058",
+          "surface": "#310000",
+          "on-secondary-fixed": "#022100",
+          "surface-bright": "#790100",
+          "on-primary": "#63003d"
+        },
+        fontFamily: {
+          "headline": ["Plus Jakarta Sans"],
+          "body": ["Be Vietnam Pro"],
+          "label": ["Spline Sans"]
+        },
+        borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .glitch-bg {
+    background-image: repeating-linear-gradient(45deg, #310000 0, #310000 1px, transparent 0, transparent 50%);
+    background-size: 4px 4px;
+  }
+
+  /* ===== NEON GLOW EFFECTS ===== */
+  .neon-pink  { filter: drop-shadow(0 0 8px #ff00ff) drop-shadow(0 0 20px #ff00ff); }
+  .neon-green { filter: drop-shadow(0 0 8px #00ff00) drop-shadow(0 0 20px #00ff00); }
+  .neon-cyan  { filter: drop-shadow(0 0 8px #00ffff) drop-shadow(0 0 20px #00ffff); }
+  .neon-yellow{ filter: drop-shadow(0 0 8px #ffff00) drop-shadow(0 0 20px #ffff00); }
+
+  .neon-border-pink  { box-shadow: 0 0 10px #ff00ff, 0 0 30px #ff00ff, inset 0 0 10px rgba(255,0,255,0.1); }
+  .neon-border-green { box-shadow: 0 0 10px #00ff00, 0 0 30px #00ff00, inset 0 0 10px rgba(0,255,0,0.1); }
+  .neon-border-cyan  { box-shadow: 0 0 10px #00ffff, 0 0 30px #00ffff, inset 0 0 10px rgba(0,255,255,0.1); }
+  .neon-border-red   { box-shadow: 0 0 10px #ff0000, 0 0 30px #ff0000, inset 0 0 10px rgba(255,0,0,0.1); }
+  .neon-border-yellow{ box-shadow: 0 0 10px #ffff00, 0 0 30px #ffff00, inset 0 0 10px rgba(255,255,0,0.1); }
+  .neon-border-orange{ box-shadow: 0 0 10px #ff6600, 0 0 30px #ff6600, inset 0 0 10px rgba(255,102,0,0.1); }
+
+  .neon-text-pink  { text-shadow: 0 0 10px #ff00ff, 0 0 30px #ff00ff, 0 0 60px #ff00ff; }
+  .neon-text-green { text-shadow: 0 0 10px #00ff00, 0 0 30px #00ff00, 0 0 60px #00ff00; }
+
+  /* ===== FLOATING FOOD ITEMS ===== */
+  .float-item {
+    position: fixed;
+    font-size: 50px;
+    pointer-events: none;
+    z-index: 10;
+    animation: floatBob 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px currentColor);
+  }
+
+  @keyframes floatBob {
+    0%   { transform: translateY(0px) rotate(0deg); }
+    50%  { transform: translateY(-25px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  /* ===== FAAAHHH POPUP ===== */
+  #faah-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #ff00ff;
+    color: yellow;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 80px;
+    font-weight: 900;
+    padding: 30px 60px;
+    border: 8px solid lime;
+    z-index: 9999;
+    text-shadow: 4px 4px red, -4px -4px cyan;
+    box-shadow: 0 0 40px #ff00ff, 0 0 80px #ff00ff;
+    animation: none;
+    border-radius: 0;
+    white-space: nowrap;
+  }
+
+  #faah-popup.show {
+    display: block;
+    animation: faahPop 1s ease forwards;
+  }
+
+  @keyframes faahPop {
+    0%   { transform: translate(-50%, -50%) scale(0) rotate(-10deg); opacity: 0; }
+    30%  { transform: translate(-50%, -50%) scale(1.3) rotate(5deg);  opacity: 1; }
+    60%  { transform: translate(-50%, -50%) scale(1)   rotate(-2deg); opacity: 1; }
+    80%  { transform: translate(-50%, -50%) scale(1)   rotate(0deg);  opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0)   rotate(10deg); opacity: 0; }
+  }
+
+  /* ===== MUSIC BUTTON ===== */
+  #music-btn {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 999;
+    background: #ff00ff;
+    color: yellow;
+    border: 4px solid lime;
+    padding: 10px 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+    animation: btnPulse 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes btnPulse {
+    0%   { box-shadow: 0 0 20px #ff00ff; }
+    100% { box-shadow: 0 0 40px #ff00ff, 0 0 80px #ff00ff; }
+  }
+
+  /* ===== MENU BUTTON NEON HOVER ===== */
+  .order-btn:hover {
+    filter: brightness(1.3) drop-shadow(0 0 15px currentColor);
+    transform: scale(1.05) rotate(0deg) !important;
+    transition: all 0.15s !important;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext y='28' font-size='28'%3E🐄%3C/text%3E%3C/svg%3E") 16 16, pointer !important;
+  }
+
+  /* ===== COW CURSOR ===== */
+  body {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext y='28' font-size='28'%3E🐄%3C/text%3E%3C/svg%3E") 16 16, auto;
+  }
+
+  /* ===== TITLE GLOW PULSE ===== */
+  .title-glow {
+    animation: titleGlow 2s ease-in-out infinite alternate;
+  }
+  @keyframes titleGlow {
+    0%   { text-shadow: 0 0 10px #ffb0d0, 0 0 30px #ffb0d0; }
+    100% { text-shadow: 0 0 20px #ff00ff, 0 0 60px #ff00ff, 0 0 100px #ff00ff; }
+  }
+
+  /* ===== ANNOYING BAD UI ===== */
+
+  /* Page randomly shakes */
+  @keyframes pageShake {
+    0%   { transform: translate(0,0) rotate(0deg); }
+    10%  { transform: translate(-3px,2px) rotate(-0.5deg); }
+    20%  { transform: translate(3px,-2px) rotate(0.5deg); }
+    30%  { transform: translate(-2px,3px) rotate(0.3deg); }
+    40%  { transform: translate(2px,-1px) rotate(-0.3deg); }
+    50%  { transform: translate(-1px,2px) rotate(0.2deg); }
+    60%  { transform: translate(3px,1px) rotate(-0.2deg); }
+    70%  { transform: translate(-3px,-2px) rotate(0.4deg); }
+    80%  { transform: translate(2px,3px) rotate(-0.4deg); }
+    90%  { transform: translate(-1px,-1px) rotate(0.1deg); }
+    100% { transform: translate(0,0) rotate(0deg); }
+  }
+  .page-shake {
+    animation: pageShake 0.4s ease-in-out;
+  }
+
+  /* Wiggling nav links */
+  @keyframes wiggle {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(3deg); }
+    50%  { transform: rotate(-3deg); }
+    75%  { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+  }
+  nav a {
+    animation: wiggle 0.6s ease-in-out infinite;
+  }
+  nav a:nth-child(2) { animation-delay: 0.15s; }
+
+  /* Annoying marquee banner */
+  .annoying-marquee {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: yellow;
+    color: red;
+    font-family: 'Comic Sans MS', 'Plus Jakarta Sans', cursive;
+    font-size: 22px;
+    font-weight: 900;
+    padding: 8px 0;
+    z-index: 99999;
+    white-space: nowrap;
+    overflow: hidden;
+    border-top: 5px dashed lime;
+  }
+  .annoying-marquee span {
+    display: inline-block;
+    animation: marqueeScroll 8s linear infinite;
+  }
+  @keyframes marqueeScroll {
+    0%   { transform: translateX(100vw); }
+    100% { transform: translateX(-200%); }
+  }
+
+  /* Fake cookie popup */
+  .fake-popup {
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
+    background: white;
+    color: black;
+    font-family: 'Comic Sans MS', cursive;
+    border: 4px solid red;
+    padding: 20px;
+    z-index: 99998;
+    max-width: 340px;
+    box-shadow: 8px 8px 0 #ff00ff;
+  }
+  .fake-popup button {
+    margin-top: 10px;
+    padding: 6px 16px;
+    border: 3px solid black;
+    background: lime;
+    font-weight: 900;
+    font-family: 'Comic Sans MS', cursive;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  /* Cursor trail particle */
+  .cursor-trail {
+    position: fixed;
+    pointer-events: none;
+    z-index: 99990;
+    font-size: 24px;
+    animation: trailFade 1s forwards;
+  }
+  @keyframes trailFade {
+    0%   { opacity: 1; transform: scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: scale(0.3) rotate(180deg) translateY(-40px); }
+  }
+
+  /* Random tilt on body */
+  @keyframes randomTilt {
+    0%   { transform: perspective(800px) rotateY(0deg) rotateX(0deg); }
+    25%  { transform: perspective(800px) rotateY(1.5deg) rotateX(0.5deg); }
+    50%  { transform: perspective(800px) rotateY(-1deg) rotateX(-0.5deg); }
+    75%  { transform: perspective(800px) rotateY(0.5deg) rotateX(1deg); }
+    100% { transform: perspective(800px) rotateY(0deg) rotateX(0deg); }
+  }
+
+  /* Scrollbar styling - ugly */
+  ::-webkit-scrollbar { width: 25px; }
+  ::-webkit-scrollbar-track { background: repeating-linear-gradient(45deg, yellow, yellow 10px, red 10px, red 20px); }
+  ::-webkit-scrollbar-thumb { background: lime; border: 4px solid magenta; }
+
+  /* Comic Sans for random elements */
+  h2, h3, h4, p, .font-label {
+    font-family: 'Comic Sans MS', 'Plus Jakarta Sans', cursive !important;
+  }
+
+  /* Everything vibrates slightly */
+  @keyframes microVibrate {
+    0% { transform: translate(0,0); }
+    50% { transform: translate(1px, -1px); }
+    100% { transform: translate(0,0); }
+  }
+  footer { animation: microVibrate 0.1s linear infinite; }
+
+  /* Selection color is unreadable */
+  ::selection {
+    background: yellow;
+    color: yellow;
+  }
+
+  /* ===== FAKE LOADING SCREEN ===== */
+  #fake-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Sans MS', cursive;
+    transition: opacity 0.5s;
+  }
+  #fake-loader .loader-cow {
+    font-size: 100px;
+    animation: loaderSpin 1s linear infinite;
+  }
+  @keyframes loaderSpin {
+    0%   { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  #fake-loader .loader-text {
+    color: #ff00ff;
+    font-size: 32px;
+    font-weight: 900;
+    margin-top: 20px;
+    text-shadow: 0 0 20px #ff00ff;
+  }
+  #fake-loader .loader-bar-outer {
+    width: 300px;
+    height: 30px;
+    border: 4px solid lime;
+    margin-top: 20px;
+    background: #222;
+    position: relative;
+    overflow: hidden;
+  }
+  #fake-loader .loader-bar-inner {
+    height: 100%;
+    width: 0%;
+    background: repeating-linear-gradient(45deg, #ff00ff, #ff00ff 10px, #00ffff 10px, #00ffff 20px);
+    transition: width 0.3s;
+  }
+  #fake-loader .loader-percent {
+    color: yellow;
+    font-size: 24px;
+    font-weight: 900;
+    margin-top: 10px;
+  }
+  #fake-loader .loader-tip {
+    color: #666;
+    font-size: 14px;
+    margin-top: 30px;
+    font-style: italic;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  /* ===== FAKE VIRUS POPUP ===== */
+  #virus-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999998;
+    background: #000;
+    border: 8px solid red;
+    padding: 40px 50px;
+    text-align: center;
+    box-shadow: 0 0 60px red, 0 0 120px red, inset 0 0 60px rgba(255,0,0,0.2);
+    animation: virusPulse 0.3s ease-in-out infinite alternate;
+    max-width: 500px;
+  }
+  @keyframes virusPulse {
+    0%   { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 60px red; }
+    100% { transform: translate(-50%, -50%) scale(1.03); box-shadow: 0 0 100px red, 0 0 200px red; }
+  }
+  #virus-popup .virus-icon { font-size: 80px; }
+  #virus-popup .virus-title {
+    color: red;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 28px;
+    font-weight: 900;
+    margin: 10px 0;
+    text-shadow: 2px 2px yellow;
+    animation: virusBlink 0.5s step-end infinite;
+  }
+  @keyframes virusBlink {
+    50% { opacity: 0; }
+  }
+  #virus-popup .virus-msg {
+    color: white;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 16px;
+  }
+  #virus-popup .virus-bar {
+    width: 100%;
+    height: 8px;
+    background: #333;
+    margin-top: 15px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  #virus-popup .virus-bar-inner {
+    height: 100%;
+    width: 0%;
+    background: red;
+    animation: virusScan 2.5s linear forwards;
+  }
+  @keyframes virusScan {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  /* ===== MISBEHAVING INPUT ===== */
+  #chaos-input-section {
+    margin-top: 40px;
+    text-align: center;
+  }
+  #chaos-name-input {
+    background: #1a0020;
+    border: 4px solid #ff00ff;
+    color: lime;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 14px 24px;
+    width: 340px;
+    max-width: 90vw;
+    outline: none;
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 20px rgba(255,0,255,0.1);
+    text-align: center;
+  }
+  #chaos-name-input::placeholder {
+    color: #ff00ff88;
+    font-style: italic;
+  }
+  #chaos-name-input:focus {
+    border-color: lime;
+    box-shadow: 0 0 30px lime, inset 0 0 20px rgba(0,255,0,0.1);
+  }
+
+  /* ===== PROCESSING OVERLAY ===== */
+  .processing-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    font-family: 'Comic Sans MS', cursive;
+    color: yellow;
+    font-size: 16px;
+    font-weight: 900;
+    pointer-events: none;
+  }
+
+  /* ===== STATUS TOAST ===== */
+  .status-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: #ff00ff;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 30px;
+    border: 3px solid lime;
+    z-index: 99997;
+    box-shadow: 0 0 20px lime;
+    animation: toastSlide 0.3s ease-out;
+    white-space: nowrap;
+  }
+  @keyframes toastSlide {
+    0%   { transform: translateX(-50%) translateY(-60px); opacity: 0; }
+    100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  }
+
+</style>
+</head>
+<body class="bg-background font-body text-on-background selection:bg-secondary selection:text-on-secondary min-h-screen overflow-x-hidden">
+
+<!-- ===== FAKE LOADING SCREEN ===== -->
+<div id="fake-loader">
+  <div class="loader-cow">🐄</div>
+  <div class="loader-text">🐄 LOADING CONFUSION...</div>
+  <div class="loader-bar-outer">
+    <div class="loader-bar-inner" id="loader-bar"></div>
+  </div>
+  <div class="loader-percent" id="loader-percent">0%</div>
+  <div class="loader-tip" id="loader-tip">Please wait... we're confusing your browser...</div>
+</div>
+
+<!-- ===== FAKE VIRUS POPUP ===== -->
+<div id="virus-popup">
+  <div class="virus-icon">⚠️🦠💀</div>
+  <div class="virus-title">⚠️ VIRUS DETECTED ⚠️</div>
+  <div class="virus-msg">TOO MUCH BAD TASTE DETECTED ON YOUR DEVICE.<br>Scanning for flavor errors...</div>
+  <div class="virus-bar"><div class="virus-bar-inner"></div></div>
+  <div style="color:#666;font-family:Comic Sans MS,cursive;font-size:12px;margin-top:10px;">Confused Cafe Antivirus™ v0.0.1</div>
+</div>
+
+<!-- ===== LOCAL AUDIO PLAYER ===== -->
+<audio id="moo-audio" loop preload="auto">
+  <source src="doja-cat-mooo-official-video_3hMqGXho (1).mp3" type="audio/mpeg">
+</audio>
+
+<!-- ===== FAAH SOUND EFFECT ===== -->
+<audio id="faah-audio" preload="auto">
+  <source src="Fahhh- sound effect (HD).mp3" type="audio/mpeg">
+</audio>
+
+<!-- ===== ENTRY POPUP ===== -->
+<div id="entry-popup" style="
+  position:fixed;inset:0;z-index:99999;
+  background:rgba(0,0,0,0.93);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  cursor:pointer;" onclick="enterSite()">
+  <div style="
+    background:#ff00ff;border:8px solid lime;
+    padding:40px 60px;text-align:center;
+    box-shadow:0 0 60px #ff00ff,0 0 120px #ff00ff;
+    animation:popupBob 1s ease-in-out infinite alternate;">
+    <div style="font-size:80px;">🐄</div>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;color:yellow;text-shadow:3px 3px red;margin:10px 0;">CLICK TO ENTER</div>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;color:white;font-weight:700;">🎵 MOO by Doja Cat will start playing!</div>
+  </div>
+</div>
+<style>
+  @keyframes popupBob {
+    0%   { transform: scale(1) rotate(-2deg); }
+    100% { transform: scale(1.05) rotate(2deg); }
+  }
+</style>
+
+<!-- ===== MUSIC TOGGLE BUTTON ===== -->
+<button id="music-btn" onclick="toggleMusic()" style="background:#333;">🔇 MOO PAUSED</button>
+
+<!-- ===== FAAAHHH POPUP ===== -->
+<div id="faah-popup">Faaahhh!! 😱</div>
+
+<!-- ===== FLOATING FOOD ITEMS (neon glow) ===== -->
+<div class="float-item" style="top:15%; left:2%;  animation-delay:0s;   color:#ff00ff; animation-duration:2.5s;">☕</div>
+<div class="float-item" style="top:40%; left:3%;  animation-delay:0.5s; color:#00ffff; animation-duration:3s;">🥛</div>
+<div class="float-item" style="top:65%; left:2%;  animation-delay:1s;   color:#ffff00; animation-duration:2s;">🐄</div>
+<div class="float-item" style="top:80%; left:4%;  animation-delay:1.5s; color:#00ff00; animation-duration:3.5s;">🧃</div>
+<div class="float-item" style="top:15%; right:2%; animation-delay:0.3s; color:#ff6600; animation-duration:2.8s;">🍵</div>
+<div class="float-item" style="top:40%; right:3%; animation-delay:0.8s; color:#ff00ff; animation-duration:2.2s;">🐄</div>
+<div class="float-item" style="top:65%; right:2%; animation-delay:1.2s; color:#00ffff; animation-duration:3.2s;">☕</div>
+<div class="float-item" style="top:80%; right:4%; animation-delay:1.7s; color:#ffff00; animation-duration:2.7s;">🥤</div>
+
+<!-- Top Navigation Shell -->
+<header class="bg-[#310000] text-[#ffb0d0] flex justify-between items-center w-full px-6 py-4 max-w-full top-0 border-b-4 border-[#2ae500] z-50 sticky" style="box-shadow: 0 0 20px #2ae500, 0 0 40px #2ae500;">
+  <div class="flex items-center gap-4">
+    <span class="text-4xl font-black text-[#ffb0d0] -rotate-2 hover:rotate-2 transition-transform font-headline uppercase tracking-tighter italic title-glow">Confused Cafe</span>
+  </div>
+  <nav class="hidden md:flex gap-8 font-headline font-black uppercase tracking-tighter italic">
+    <a class="text-[#2ae500] border-b-4 border-[#2ae500] pb-1 neon-text-green" href="#">Our Mess</a>
+    <a class="text-[#ffdad4] hover:text-[#bec2ff]" href="#">Chaos Cart</a>
+  </nav>
+  <div class="flex gap-4">
+    <button class="material-symbols-outlined text-[#ffb0d0] hover:bg-[#8c0058] p-2 transition-none">shopping_cart</button>
+    <button class="material-symbols-outlined text-[#ffb0d0] hover:bg-[#8c0058] p-2 transition-none">help_outline</button>
+  </div>
+</header>
+
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col bg-[#410000]/90 backdrop-blur-xl w-72 border-r-4 border-[#ffb0d0] hidden lg:flex pt-24" style="box-shadow: 0 0 20px #ffb0d0;">
+  <div class="p-6">
+    <h2 class="text-xl font-black text-[#ffb0d0] font-headline uppercase neon-text-pink">HELL-O</h2>
+    <p class="text-on-surface-variant font-label text-xs uppercase tracking-widest">Order at your own risk</p>
+  </div>
+  <div class="flex flex-col flex-1">
+    <a class="flex items-center gap-4 p-6 bg-[#2ae500] text-[#310000] font-black -rotate-1 scale-105 font-headline text-lg neon-border-green" href="#">
+      <span class="material-symbols-outlined">restaurant</span> Toxic Menu
+    </a>
+    <a class="flex items-center gap-4 p-6 text-[#ffb0d0] hover:translate-x-2 transition-transform font-headline text-lg bg-[#310000]" href="#">
+      <span class="material-symbols-outlined">history</span> Regretful History
+    </a>
+    <a class="flex items-center gap-4 p-6 text-[#ffb0d0] hover:translate-x-2 transition-transform font-headline text-lg bg-[#410000]" href="#">
+      <span class="material-symbols-outlined">pets</span> Cow Tracker
+    </a>
+    <a class="flex items-center gap-4 p-6 text-[#ffb0d0] hover:translate-x-2 transition-transform font-headline text-lg bg-[#310000]" href="#">
+      <span class="material-symbols-outlined">logout</span> Emergency Exit
+    </a>
+  </div>
+  <div class="p-6">
+    <button class="w-full py-4 bg-primary text-on-primary font-black hover:bg-tertiary transition-none neon-border-pink">DONT CLICK HERE</button>
+  </div>
+</aside>
+
+<!-- Main Content Canvas -->
+<main class="lg:pl-72 relative min-h-screen">
+  <div class="absolute inset-0 glitch-bg pointer-events-none opacity-20"></div>
+
+  <!-- Hero Section -->
+  <section class="relative pt-20 pb-12 px-6 flex flex-col items-center justify-center overflow-hidden">
+
+    <!-- Animated Cows (fixed on sides, always visible) -->
+    <div class="fixed left-4 top-1/2 -translate-y-1/2 text-8xl md:text-9xl z-20 neon-pink" style="animation: floatBob 3s ease-in-out infinite;">🐄</div>
+    <div class="fixed right-4 top-1/2 -translate-y-1/2 text-8xl md:text-9xl z-20 neon-pink" style="animation: floatBob 4s ease-in-out infinite; animation-delay:1s; transform: translateY(-50%) scaleX(-1);">🐄</div>
+
+    <!-- Big Bold Title -->
+    <div class="relative mb-20">
+      <h1 class="font-headline font-black text-7xl md:text-9xl uppercase tracking-tighter italic text-center leading-none text-primary relative z-10 title-glow">
+        Confused Cafe
+      </h1>
+      <h1 class="font-headline font-black text-7xl md:text-9xl uppercase tracking-tighter italic text-center leading-none text-tertiary absolute top-1 left-1 opacity-50 -z-10">
+        Confused Cafe
+      </h1>
+      <h1 class="font-headline font-black text-7xl md:text-9xl uppercase tracking-tighter italic text-center leading-none text-error absolute -top-1 -left-1 opacity-50 -z-10">
+        Confused Cafe
+      </h1>
+    </div>
+
+    <!-- The Chaotic Menu Grid -->
+    <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12 px-4">
+
+      <!-- Button 1: Coffee with Salt -->
+      <button class="order-btn group relative border-8 border-secondary rotate-3 transition-all active:scale-95 neon-border-pink overflow-hidden rounded-3xl flex flex-col" onclick="playFaah()">
+        <div class="flex w-full" style="height:140px;">
+          <img src="coffee-with-salt.png" class="w-full h-full object-cover" alt="coffee with salt"/>
+        </div>
+        <div class="bg-[#ff00ff] w-full p-4">
+          <span class="font-headline text-2xl font-black block leading-tight text-white" style="text-shadow:2px 2px black;">☕ Coffee with Salt</span>
+        </div>
+        <span class="absolute -top-2 -right-2 bg-tertiary text-on-tertiary text-xs font-label p-2 rotate-12 z-20 rounded-full">YUCK!</span>
+      </button>
+
+      <!-- Button 2: Milk with Coca Cola -->
+      <button class="order-btn group relative border-8 border-[#ff0000] -rotate-6 transition-all active:skew-x-6 neon-border-red overflow-hidden rounded-3xl flex flex-col" onclick="playFaah()">
+        <div class="flex w-full" style="height:140px;">
+          <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&q=80" class="w-1/2 h-full object-cover" alt="milk"/>
+          <img src="https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=300&q=80" class="w-1/2 h-full object-cover" alt="coca cola"/>
+        </div>
+        <div class="bg-[#00cc00] w-full p-4">
+          <span class="font-headline text-2xl font-black block leading-tight italic text-white" style="text-shadow:2px 2px black;">🥛 Milk with Coca Cola</span>
+        </div>
+      </button>
+
+      <!-- Button 3: Espresso with Sprite -->
+      <button class="order-btn group relative border-8 border-tertiary-fixed-dim rotate-2 transition-all active:scale-75 neon-border-cyan overflow-hidden rounded-3xl flex flex-col" onclick="playFaah()">
+        <div class="flex w-full" style="height:140px;">
+          <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=300&q=80" class="w-1/2 h-full object-cover" alt="espresso"/>
+          <img src="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=300&q=80" class="w-1/2 h-full object-cover" alt="sprite"/>
+        </div>
+        <div class="bg-[#ff0000] w-full p-4">
+          <span class="font-headline text-2xl font-black block leading-tight text-white" style="text-shadow:2px 2px black;">🧃 Espresso with Sprite</span>
+        </div>
+      </button>
+
+      <!-- Button 4: Hot Milk with Ketchup -->
+      <button class="order-btn group relative border-8 border-[#ffff00] rotate-12 transition-all neon-border-yellow overflow-hidden rounded-3xl flex flex-col" onclick="playFaah()">
+        <div class="flex w-full" style="height:140px;">
+          <img src="milk and ketchup.png" class="w-full h-full object-cover" alt="hot milk with ketchup"/>
+        </div>
+        <div class="bg-[#bec2ff] w-full p-4">
+          <span class="font-headline text-2xl font-black block leading-tight text-black" style="text-shadow:1px 1px white;">🍅 Hot Milk with Ketchup</span>
+        </div>
+      </button>
+
+      <!-- Button 5: Cold Coffee with Toothpaste -->
+      <button class="order-btn group relative border-8 border-primary -rotate-2 transition-all active:translate-y-4 neon-border-pink overflow-hidden rounded-3xl flex flex-col" onclick="playFaah()">
+        <div class="flex w-full" style="height:140px;">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300&q=80" class="w-1/2 h-full object-cover" alt="cold coffee"/>
+          <img src="toothpaste.jfif" class="w-1/2 h-full object-cover" alt="toothpaste"/>
+        </div>
+        <div class="bg-[#ffff00] w-full p-4">
+          <span class="font-headline text-2xl font-black block leading-tight text-black" style="text-shadow:1px 1px white;">🦷 Cold Coffee + Toothpaste</span>
+        </div>
+      </button>
+
+      <!-- Button 6: Chocolate Milk with Mustard -->
+      <button class="order-btn group relative border-8 border-secondary-fixed-dim rotate-1 transition-all neon-border-orange overflow-hidden rounded-3xl flex flex-col" onclick="playFaah()">
+        <div class="flex w-full" style="height:140px;">
+          <img src="Gemini_Generated_Image_vvgdpvvgdpvvgdpv.png" class="w-full h-full object-cover" alt="chocolate milk with mustard"/>
+        </div>
+        <div class="bg-[#ff6600] w-full p-4">
+          <span class="font-headline text-2xl font-black block leading-tight text-white" style="text-shadow:2px 2px black;">🍫 Choco Milk + Mustard</span>
+        </div>
+      </button>
+
+    </div>
+
+    <!-- ===== MISBEHAVING INPUT ===== -->
+    <div id="chaos-input-section">
+      <label style="color:#ff00ff;font-family:'Comic Sans MS',cursive;font-size:22px;font-weight:900;display:block;margin-bottom:12px;text-shadow:0 0 10px #ff00ff;">✍️ ENTER YOUR NAME TO ORDER:</label>
+      <input id="chaos-name-input" type="text" placeholder="Type your name... if you can 🐄" autocomplete="off"/>
+      <div style="color:#666;font-family:'Comic Sans MS',cursive;font-size:12px;margin-top:8px;font-style:italic;">* We are not responsible for what happens to your name</div>
+    </div>
+
+    <!-- Promotional Area -->
+    <div class="mt-32 w-full max-w-5xl grid grid-cols-1 md:grid-cols-4 gap-4 px-4">
+      <div class="md:col-span-2 bg-surface-container-high border-b-8 border-secondary p-8 rotate-1 neon-border-green">
+        <h3 class="text-primary font-headline text-4xl font-black mb-4 neon-text-pink">TODAY'S DISASTER</h3>
+        <p class="text-on-surface body-lg italic">We found a cow in the storage room. All milk is now 'Extra Authentically Fresh'. No refunds for grass flavors.</p>
+      </div>
+      <div class="bg-[#710100] p-6 -rotate-3 border-l-4 border-primary neon-border-red">
+        <span class="material-symbols-outlined text-secondary text-5xl mb-4">warning</span>
+        <p class="font-label text-sm uppercase tracking-tighter">Enter at your own peril. We are not responsible for your tastebuds' trauma.</p>
+      </div>
+      <div class="bg-tertiary-container text-on-tertiary-container p-6 rotate-2 flex flex-col justify-end neon-border-cyan">
+        <h4 class="font-black text-2xl">COW TRACKER:</h4>
+        <span class="text-4xl font-black">ACTIVE 🐄</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Gallery -->
+  <section class="py-20 px-6">
+    <h2 class="text-center font-headline font-black text-5xl text-secondary mb-16 rotate-1 neon-text-green">VISUAL REGRET GALLERY</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div class="aspect-square bg-surface-container overflow-hidden rotate-2 neon-border-pink">
+        <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-75" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-bfVXsC0HqRUe6lg6f9dZhwgfTwk53ccSzHBGfv-vF7UP75zBODcB_rGHn-o_pKnymMuBOTF5Pz4hMe-Er04EUL07zI55-0DWU74Pz1Wt9gebrymLSwKJSV4bGBru-Jw6hywoaRElnN9bEhsAT1XSoW0btTEfbA8yQnyhJfGUUEBfbjRFup57NZdl9ojBZVlvF6w4b4eBYZKrBpx6Ctba6oXGC9z8loGIO62xO-d1sO_qiZHyRPtwJ0G8rmp9PjJVZKjAmZ33nA" alt="chaotic latte"/>
+      </div>
+      <div class="aspect-square bg-surface-container-high overflow-hidden -rotate-3 neon-border-green">
+        <img class="w-full h-full object-cover brightness-150 contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlUKjT_Rg52RUNV6q_yJUw5R0U7RfPpAsoqNutQYwTXZ-rtsFksZf9_aeeAe9jAoVpfcnkndaE3ngs054JxNUuTVDfaEUltDAA7GTe4_9TSAN_5RdjpgR1jqQXa7KyQyCAFuE-X2EPjy-Ja5nyDuiEOnERAxis9i3hTauWuWq0naRS0XuJjB87Rrue-uWDhubBHUYtuwFlUry1O6RYrFKdiDrLvlJCpXCjACaSbqu3Cy6I0E-OWRK_EX3HyasRCbth1EeQNr5U8Q" alt="milk soda"/>
+      </div>
+      <div class="aspect-square bg-surface-container overflow-hidden rotate-6 neon-border-yellow">
+        <img class="w-full h-full object-cover hue-rotate-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7wXNjOF1FsuO-fcxyFfeQzKFNjpBu38nUYxc_ZSG31I2FVTzEfSdTO_tSQ4oABdUErNnsCoh93mzqtZOizMP4mKx-VuzDvADoJnnrmMH7EQwITeHPUfnJ1CxEMKg8MlldfoVamZ3Inh1--KzDUpYu-tdq2HpnazNucstdKluXc-jQhspiW8ncWEOUfWAyq_vNUzjwWMkH-3O6Xcyz_7H77J0_CWOaQdEk4dzWC3lUE6NmxmJ3ApkPqtffY1eYEOFnunEWuu31Sg" alt="espresso sprite"/>
+      </div>
+      <div class="aspect-square bg-surface-container-highest overflow-hidden -rotate-1 neon-border-red">
+        <img class="w-full h-full object-cover invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjXd6E76LbXlk8trhpq0hHpZGFZw0Yfhqs2daQP_7_L2_MeDXEW8BqMdAna-RH6wyXfl4CyfANUAUhanndcSgHj8aNbwA0eyS86IRlGEWTRlfs4n-gdkjvBsLyX2WQkEEX6AXncL1AarXNcHQTKu5gcANlg4F7pl_mBHVHOtVQqkLkc76sdVr8Nn-i-2a9Ee-bw5oVHwi8MUxK174PX8lhgt5o7KznBE6UThOgoAMAeMmt4xKsCy_DIPoyCG2AxPSDSzCku8UxiA" alt="mustard milk"/>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#310000] text-[#bec2ff] font-['Spline_Sans'] text-xs uppercase tracking-widest w-full py-12 px-10 flex flex-col md:flex-row justify-between items-center gap-8 border-t-4 border-[#2ae500]" style="box-shadow: 0 0 20px #2ae500;">
+  <div class="flex flex-col gap-2">
+    <span class="text-[#ffb0d0] font-bold text-xl neon-text-pink">© 2024 CONFUSED CAFE - STAY MESSY</span>
+    <p class="opacity-50">WE DON'T KNOW WHAT WE ARE DOING EITHER</p>
+  </div>
+  <div class="flex gap-6">
+    <a class="text-[#ffdad4] opacity-50 hover:opacity-100 hover:text-[#ffb0d0] transition-none" href="#">Privacy Nightmare</a>
+    <a class="text-[#ffdad4] opacity-50 hover:opacity-100 hover:text-[#ffb0d0] transition-none" href="#">Terms of Chaos</a>
+    <a class="text-[#2ae500] underline hover:text-[#ffb0d0] transition-none neon-text-green" href="#">Contact Void</a>
+  </div>
+  <div class="flex items-center gap-4">
+    <span class="material-symbols-outlined text-secondary">eco</span>
+    <span class="text-xs italic">100% UNETHICALLY SOURCED ANARCHY</span>
+  </div>
+</footer>
+
+<!-- Floating Action Button -->
+<div class="fixed bottom-8 right-8 z-50" style="margin-bottom:50px;">
+  <button class="bg-[#2ae500] text-[#310000] w-20 h-20 flex items-center justify-center font-black text-xl border-4 border-[#ffb0d0] hover:bg-[#ffb0d0] hover:scale-110 active:skew-x-12 transition-all neon-border-green">
+    <span class="material-symbols-outlined scale-150">pest_control</span>
+  </button>
+</div>
+
+<!-- ===== ANNOYING MARQUEE BANNER ===== -->
+<div class="annoying-marquee">
+  <span>🐄 MOOO!! 🐄 THIS WEBSITE USES COOKIES 🍪 AND ALSO YOUR PERSONAL DATA 🐄 WE SOLD IT ALREADY 🐄 NO REFUNDS 🐄 WHY ARE YOU STILL HERE?? 🐄 MOOO!! 🐄 CLICK ANYWHERE TO REGRET EVERYTHING 🐄 FREE COW WITH EVERY ORDER (cow not included) 🐄 MOOO!!</span>
+</div>
+
+<!-- ===== FAKE COOKIE POPUP ===== -->
+<div class="fake-popup" id="fake-popup">
+  <div style="font-size:18px; font-weight:900; margin-bottom:8px;">🍪 WE USE COOKIES!!!</div>
+  <div style="font-size:13px;">We use cookies, trackers, your browser history, your search history, your diary, and that embarrassing thing you did in 5th grade. By existing on this page you agree to everything forever.</div>
+  <button onclick="dismissPopup(this)">I AGREE (you have no choice)</button>
+  <button onclick="dismissPopup(this)">I DISAGREE (we don't care)</button>
+  <button onclick="dismissPopup(this)" style="background:red;color:white;">✕ CLOSE (lol no)</button>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // ---- FAAAHHH SOUND (MP3) ----
+  var faahAudio = document.getElementById('faah-audio');
+
+  function playFaah() {
+    // Duck MOO music volume while faah plays
+    if (musicPlaying) {
+      mooAudio.volume = 0.15;
+    }
+
+    faahAudio.currentTime = 0;
+    faahAudio.play().catch(function(err) {
+      console.log('Faah play blocked:', err);
+    });
+
+    // Restore MOO volume when faah sound ends
+    faahAudio.onended = function() {
+      if (musicPlaying) {
+        mooAudio.volume = 1;
+      }
+    };
+
+    // Show popup after a short delay so sound plays first
+    setTimeout(function() { showFaahPopup(); }, 300);
+  }
+
+  // ---- FAAAHHH POPUP ----
+  function showFaahPopup() {
+    var popup = document.getElementById('faah-popup');
+    popup.classList.remove('show');
+    void popup.offsetWidth;
+    popup.classList.add('show');
+    setTimeout(function() { popup.classList.remove('show'); }, 1000);
+  }
+
+
+  // ---- LOCAL AUDIO PLAYER ----
+  var mooAudio = document.getElementById('moo-audio');
+  var musicPlaying = false;
+
+  // Entry popup click — start audio and hide popup
+  function enterSite() {
+    var popup = document.getElementById('entry-popup');
+    popup.style.display = 'none';
+
+    mooAudio.currentTime = 0;
+    mooAudio.volume = 1;
+    mooAudio.play().then(function() {
+      musicPlaying = true;
+      var btn = document.getElementById('music-btn');
+      btn.textContent = '🎵 MOO PLAYING';
+      btn.style.background = '#ff00ff';
+    }).catch(function(err) {
+      console.log('Autoplay blocked:', err);
+    });
+  }
+
+  // Toggle music on/off
+  function toggleMusic() {
+    var btn = document.getElementById('music-btn');
+    if (musicPlaying) {
+      mooAudio.pause();
+      btn.textContent = '🔇 MOO PAUSED';
+      btn.style.background = '#333';
+      musicPlaying = false;
+    } else {
+      mooAudio.play().then(function() {
+        btn.textContent = '🎵 MOO PLAYING';
+        btn.style.background = '#ff00ff';
+        musicPlaying = true;
+      }).catch(function(err) {
+        console.log('Play blocked:', err);
+      });
+    }
+  }
+
+  // ===== ANNOYING BAD UI JAVASCRIPT =====
+
+  // ---- CURSOR EMOJI TRAIL ----
+  var trailEmojis = ['🐄','💀','🔥','💩','☕','🤮','😱','🧂','🥛','🤡'];
+  document.addEventListener('mousemove', function(e) {
+    if (Math.random() > 0.85) {
+      var el = document.createElement('div');
+      el.className = 'cursor-trail';
+      el.textContent = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+      el.style.left = e.clientX + 'px';
+      el.style.top = e.clientY + 'px';
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, 1000);
+    }
+  });
+
+  // ---- RANDOM PAGE SHAKE ON SCROLL ----
+  var lastScroll = 0;
+  window.addEventListener('scroll', function() {
+    var now = Date.now();
+    if (now - lastScroll > 2000 && Math.random() > 0.6) {
+      document.body.classList.add('page-shake');
+      setTimeout(function() { document.body.classList.remove('page-shake'); }, 400);
+      lastScroll = now;
+    }
+  });
+
+  // ---- RANDOM BODY TILT ----
+  setInterval(function() {
+    if (Math.random() > 0.7) {
+      document.body.style.animation = 'randomTilt 3s ease-in-out';
+      setTimeout(function() { document.body.style.animation = ''; }, 3000);
+    }
+  }, 8000);
+
+  // ---- FAKE POPUP: NEVER ACTUALLY CLOSES ----
+  var popupDismissCount = 0;
+  function dismissPopup(btn) {
+    popupDismissCount++;
+    var popup = document.getElementById('fake-popup');
+    if (popupDismissCount <= 2) {
+      // Move the popup to a random position
+      popup.style.right = (Math.random() * 60 + 5) + '%';
+      popup.style.bottom = (Math.random() * 300 + 60) + 'px';
+      popup.querySelector('div').textContent = ['🍪 NICE TRY! Still here!','🍪 You can\'t escape cookies!','🍪 HAHA!! NOPE!!'][popupDismissCount - 1] || '🍪 STILL HERE!!';
+    } else if (popupDismissCount === 3) {
+      popup.style.display = 'none';
+      // Spawn TWO popups
+      for (var i = 0; i < 2; i++) {
+        var clone = popup.cloneNode(true);
+        clone.id = 'fake-popup-' + i;
+        clone.style.display = 'block';
+        clone.style.right = (Math.random() * 50 + 10) + '%';
+        clone.style.bottom = (Math.random() * 200 + 60) + 'px';
+        clone.querySelector('div').textContent = '🍪 WE MULTIPLIED!!';
+        document.body.appendChild(clone);
+      }
+      setTimeout(function() {
+        document.querySelectorAll('[id^=fake-popup-]').forEach(function(p) { p.remove(); });
+      }, 5000);
+    } else {
+      popup.style.display = 'none';
+    }
+  }
+
+  // ---- RANDOM CURSOR CHANGES ----
+  var cursors = ['wait', 'crosshair', 'help', 'not-allowed', 'grab', 'zoom-in', 'cell', 'move', 'progress'];
+  setInterval(function() {
+    if (Math.random() > 0.5) {
+      document.body.style.cursor = cursors[Math.floor(Math.random() * cursors.length)];
+      setTimeout(function() {
+        document.body.style.cursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext y='28' font-size='28'%3E🐄%3C/text%3E%3C/svg%3E\") 16 16, auto";
+      }, 2000);
+    }
+  }, 5000);
+
+  // ---- BUTTONS RUN AWAY FROM MOUSE ----
+  document.querySelectorAll('.order-btn').forEach(function(btn) {
+    btn.addEventListener('mouseenter', function() {
+      if (Math.random() > 0.5) {
+        var randX = (Math.random() - 0.5) * 80;
+        var randY = (Math.random() - 0.5) * 40;
+        btn.style.transition = 'transform 0.2s';
+        btn.style.transform = 'translate(' + randX + 'px, ' + randY + 'px) rotate(' + (Math.random() * 10 - 5) + 'deg)';
+        setTimeout(function() {
+          btn.style.transform = '';
+        }, 800);
+      }
+    });
+  });
+
+  // ---- SURPRISE ALERTS ----
+  var alertMessages = [
+    '🐄 MOO! Did you know cows have best friends?',
+    '⚠️ WARNING: Your taste buds filed a complaint!',
+    '💀 Error 404: Good taste not found',
+    '🧂 Salt levels: CATASTROPHIC',
+    '☕ Your coffee is judging you right now',
+    '🤮 Our chef just quit... again',
+    '🐄 A cow escaped the kitchen!'
+  ];
+  setTimeout(function alertLoop() {
+    if (Math.random() > 0.4) {
+      alert(alertMessages[Math.floor(Math.random() * alertMessages.length)]);
+    }
+    setTimeout(alertLoop, 25000 + Math.random() * 30000);
+  }, 20000);
+
+  // ---- RANDOMLY FLIP PAGE UPSIDE DOWN BRIEFLY ----
+  setInterval(function() {
+    if (Math.random() > 0.85) {
+      document.body.style.transition = 'transform 0.5s';
+      document.body.style.transform = 'rotate(180deg)';
+      setTimeout(function() {
+        document.body.style.transform = '';
+        setTimeout(function() { document.body.style.transition = ''; }, 500);
+      }, 1500);
+    }
+  }, 30000);
+
+  // ---- CHANGE TITLE CONSTANTLY ----
+  var titles = [
+    'Confused Cafe - Stay Messy',
+    '🐄 MOO MOO MOO',
+    'CLOSE THIS TAB!!',
+    'ERROR: Too much chaos',
+    '💀 WHY ARE YOU HERE',
+    '🍪 ACCEPT OUR COOKIES',
+    'YOUR ORDER IS: REGRET',
+    '☕🧂 COFFEE + SALT = ART',
+    '(1) New Message... jk',
+    'CONFUSED CAFE IS WATCHING'
+  ];
+  var titleIdx = 0;
+  setInterval(function() {
+    document.title = titles[titleIdx % titles.length];
+    titleIdx++;
+  }, 3000);
+
+  // ---- RIGHT-CLICK SHOWS FAKE MESSAGE ----
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    var msg = document.createElement('div');
+    msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:red;color:white;font-family:Comic Sans MS,cursive;font-size:30px;font-weight:900;padding:30px 50px;z-index:999999;border:6px solid yellow;box-shadow:0 0 40px red;';
+    msg.textContent = '🚫 NO RIGHT CLICK!! 🚫';
+    document.body.appendChild(msg);
+    setTimeout(function() { msg.remove(); }, 1500);
+  });
+
+  // ===================================================================
+  // ============= NEW CHAOS FEATURES FOR WORST UI COMPETITION ========
+  // ===================================================================
+
+  // ---- 1. FAKE LOADING SCREEN ----
+  (function() {
+    var loader = document.getElementById('fake-loader');
+    var bar = document.getElementById('loader-bar');
+    var pct = document.getElementById('loader-percent');
+    var tip = document.getElementById('loader-tip');
+    var progress = 0;
+    var tips = [
+      'Please wait... we\'re confusing your browser...',
+      'Downloading extra chaos...',
+      'Importing cow sounds...',
+      'Generating regret...',
+      'Calibrating bad taste sensors...',
+      'Shuffling menu items randomly...',
+      'Loading Comic Sans... (sorry)',
+      'Asking the cow for permission...',
+      'Mixing coffee with toothpaste...',
+      'Almost there... probably...',
+      'Calculating salt-to-coffee ratio...',
+      'ERROR: Too much flavor detected. Removing...',
+      'Reticulating splines of confusion...'
+    ];
+    var tipIdx = 0;
+
+    var startTime = Date.now();
+
+    var loaderInterval = setInterval(function() {
+      var elapsed = Date.now() - startTime;
+
+      // Randomly jump backward (but only before 4s, and smaller jumps)
+      if (progress > 30 && progress < 90 && elapsed < 4000 && Math.random() > 0.75) {
+        var jumpBack = Math.floor(Math.random() * 20) + 8;
+        progress = Math.max(10, progress - jumpBack);
+        tip.textContent = '⚠️ OOPS! Progress lost... reloading...';
+      } else {
+        progress += Math.floor(Math.random() * 12) + 3;
+      }
+
+      // Force complete at 4.5 seconds
+      if (elapsed >= 4500) {
+        progress = 100;
+      }
+
+      // Change tip text periodically
+      if (Math.random() > 0.6) {
+        tipIdx = (tipIdx + 1) % tips.length;
+        tip.textContent = tips[tipIdx];
+      }
+
+      if (progress >= 100) {
+        progress = 100;
+        bar.style.width = '100%';
+        pct.textContent = '100%';
+        tip.textContent = '✅ Done! Entering chaos zone...';
+        clearInterval(loaderInterval);
+        setTimeout(function() {
+          loader.style.opacity = '0';
+          setTimeout(function() { loader.style.display = 'none'; }, 500);
+        }, 300);
+        return;
+      }
+
+      bar.style.width = progress + '%';
+      pct.textContent = progress + '%';
+    }, 200);
+  })();
+
+  // ---- 2. RANDOM ERROR BEEP SOUND (Web Audio API) ----
+  var audioCtx = null;
+  var userInteracted = false;
+
+  document.addEventListener('click', function() {
+    if (!userInteracted) {
+      userInteracted = true;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }, { once: false });
+
+  function playErrorBeep() {
+    if (!audioCtx || !userInteracted) return;
+    try {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      // Random annoying frequency
+      var freqs = [440, 880, 1200, 1600, 2000, 300, 550, 700];
+      osc.frequency.value = freqs[Math.floor(Math.random() * freqs.length)];
+      osc.type = ['square', 'sawtooth', 'triangle'][Math.floor(Math.random() * 3)];
+      gain.gain.value = 0.12;
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.15);
+    } catch(e) {}
+  }
+
+  // Play error beep every 4-6 seconds
+  setInterval(function() {
+    if (userInteracted && Math.random() > 0.3) {
+      playErrorBeep();
+    }
+  }, 4000 + Math.random() * 2000);
+
+  // ---- 3. MISBEHAVING INPUT FIELD ----
+  (function() {
+    var input = document.getElementById('chaos-name-input');
+    if (!input) return;
+    var emojiReplacements = ['💀','🐄','🤡','🤮','💩','🧂','☕','😱','🦷','🍅'];
+
+    input.addEventListener('input', function() {
+      // 15% chance: clear the input
+      if (Math.random() > 0.85 && input.value.length > 2) {
+        setTimeout(function() {
+          input.value = '';
+          input.placeholder = 'OOPS! Try again 🐄';
+        }, 100);
+        return;
+      }
+      // 12% chance: replace with random emojis
+      if (Math.random() > 0.88 && input.value.length > 1) {
+        setTimeout(function() {
+          var emoji = '';
+          for (var i = 0; i < 4; i++) {
+            emoji += emojiReplacements[Math.floor(Math.random() * emojiReplacements.length)];
+          }
+          input.value = emoji;
+        }, 200);
+        return;
+      }
+      // 10% chance: reverse the text
+      if (Math.random() > 0.9 && input.value.length > 3) {
+        setTimeout(function() {
+          input.value = input.value.split('').reverse().join('');
+        }, 150);
+      }
+    });
+
+    // Randomly change placeholder
+    setInterval(function() {
+      var placeholders = [
+        'Type your name... if you can 🐄',
+        'Your name here (we\'ll forget it)',
+        'Name? What name? 🤡',
+        'ERROR: Keyboard not found',
+        'Press any key to lose progress',
+        'Do you even have a name? 💀',
+        'Type slowly... or don\'t 🧂'
+      ];
+      input.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
+    }, 5000);
+  })();
+
+  // ---- 4. DELAYED & UNRELIABLE BUTTONS ----
+  (function() {
+    var originalPlayFaah = playFaah;
+    playFaah = function() {
+      // Find the clicked button and show processing overlay
+      var btns = document.querySelectorAll('.order-btn');
+      var targetBtn = null;
+      btns.forEach(function(b) {
+        if (b.matches(':hover') || b.matches(':active')) targetBtn = b;
+      });
+
+      // 25% chance: ignore click completely
+      if (Math.random() > 0.75) {
+        if (targetBtn) {
+          var ignoreMsg = document.createElement('div');
+          ignoreMsg.className = 'processing-overlay';
+          ignoreMsg.textContent = '❌ Click ignored. Try harder.';
+          targetBtn.style.position = 'relative';
+          targetBtn.appendChild(ignoreMsg);
+          setTimeout(function() { ignoreMsg.remove(); }, 1200);
+        }
+        return;
+      }
+
+      // Show processing overlay
+      if (targetBtn) {
+        var overlay = document.createElement('div');
+        overlay.className = 'processing-overlay';
+        overlay.innerHTML = '⏳ Processing...';
+        targetBtn.style.position = 'relative';
+        targetBtn.appendChild(overlay);
+
+        var dots = 0;
+        var dotInterval = setInterval(function() {
+          dots = (dots + 1) % 4;
+          overlay.innerHTML = '⏳ Processing' + '.'.repeat(dots);
+        }, 300);
+
+        // Delayed execution (1-2 seconds)
+        var delay = 1000 + Math.random() * 1000;
+        setTimeout(function() {
+          clearInterval(dotInterval);
+          overlay.remove();
+          originalPlayFaah();
+        }, delay);
+      } else {
+        // Fallback: just delay without overlay
+        setTimeout(originalPlayFaah, 1000 + Math.random() * 1000);
+      }
+    };
+  })();
+
+  // ---- 5. RARE FAKE VIRUS POPUP ----
+  function showVirusPopup() {
+    var popup = document.getElementById('virus-popup');
+    popup.style.display = 'block';
+    // Reset animation
+    var barInner = popup.querySelector('.virus-bar-inner');
+    barInner.style.animation = 'none';
+    void barInner.offsetWidth;
+    barInner.style.animation = 'virusScan 2.5s linear forwards';
+
+    playErrorBeep();
+    setTimeout(playErrorBeep, 300);
+    setTimeout(playErrorBeep, 600);
+
+    setTimeout(function() {
+      popup.style.display = 'none';
+    }, 3000);
+  }
+
+  // Trigger virus popup randomly (every 40-80 seconds, 40% chance)
+  setTimeout(function virusLoop() {
+    if (Math.random() > 0.6) {
+      showVirusPopup();
+    }
+    setTimeout(virusLoop, 40000 + Math.random() * 40000);
+  }, 35000);
+
+  // ---- 6. MINOR CHAOS ENHANCEMENTS ----
+
+  // Random scroll jumps
+  setInterval(function() {
+    if (Math.random() > 0.85) {
+      var jumpTo = Math.random() * document.body.scrollHeight;
+      window.scrollTo({ top: jumpTo, behavior: 'smooth' });
+    }
+  }, 15000);
+
+  // Randomly swap text content briefly
+  var chaosTexts = ['MOO!!','HELP!!','WHY??','BUY COW','ERROR','🐄🐄🐄','AAAA!!','YUCK!','NO REFUNDS','SEND HELP'];
+  setInterval(function() {
+    if (Math.random() > 0.7) {
+      var allSpans = document.querySelectorAll('main span, main h3, main h4, footer span');
+      if (allSpans.length > 0) {
+        var target = allSpans[Math.floor(Math.random() * allSpans.length)];
+        var original = target.textContent;
+        target.textContent = chaosTexts[Math.floor(Math.random() * chaosTexts.length)];
+        target.style.color = ['#ff00ff','#00ff00','#ffff00','red','cyan'][Math.floor(Math.random() * 5)];
+        setTimeout(function() {
+          target.textContent = original;
+          target.style.color = '';
+        }, 1500);
+      }
+    }
+  }, 7000);
+
+  // Cursor briefly disappears
+  setInterval(function() {
+    if (Math.random() > 0.8) {
+      document.body.style.cursor = 'none';
+      setTimeout(function() {
+        document.body.style.cursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext y='28' font-size='28'%3E🐄%3C/text%3E%3C/svg%3E\") 16 16, auto";
+      }, 1500);
+    }
+  }, 12000);
+
+  // Fake status toasts that never finish
+  var fakeStatuses = [
+    '💾 Saving your order...',
+    '🔄 Loading preferences...',
+    '📡 Connecting to cow server...',
+    '⏳ Uploading taste profile...',
+    '🔒 Encrypting your regret...',
+    '📊 Analyzing flavor chaos...',
+    '☁️ Syncing with the void...',
+    '🐄 Downloading cow update...',
+    '🧂 Calculating salt levels...',
+    '💀 Processing your life choices...'
+  ];
+  setInterval(function() {
+    if (Math.random() > 0.7) {
+      var toast = document.createElement('div');
+      toast.className = 'status-toast';
+      var msg = fakeStatuses[Math.floor(Math.random() * fakeStatuses.length)];
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+
+      // Add animated dots
+      var dotCount = 0;
+      var dotTimer = setInterval(function() {
+        dotCount = (dotCount + 1) % 4;
+        toast.textContent = msg + '.'.repeat(dotCount);
+      }, 400);
+
+      // Remove after 4-8 seconds
+      setTimeout(function() {
+        clearInterval(dotTimer);
+        toast.textContent = '❌ ' + msg.split('...')[0] + '... FAILED!';
+        toast.style.borderColor = 'red';
+        toast.style.color = 'red';
+        toast.style.boxShadow = '0 0 20px red';
+        setTimeout(function() { toast.remove(); }, 1500);
+      }, 4000 + Math.random() * 4000);
+    }
+  }, 10000);
+
+</script>
+
+</body>
+</html>
